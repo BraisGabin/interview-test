@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+  <ImageView
+      android:id="@+id/avatar"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginBottom="16dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:srcCompat="@tools:sample/avatars" />
+
+  <TextView
+      android:id="@+id/pilot"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:letterSpacing="0.2"
+      android:textAllCaps="true"
+      android:textColor="#ffffff"
+      android:textSize="16sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toTopOf="@+id/pickUp"
+      app:layout_constraintStart_toEndOf="@+id/avatar"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed"
+      tools:text="Dark Vador" />
+
+  <TextView
+      android:id="@+id/pickUp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:textColor="@color/warm_grey"
+      android:textSize="14sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/pilot"
+      app:layout_constraintTop_toBottomOf="@+id/pilot"
+      app:layout_constraintVertical_chainStyle="packed"
+      tools:text="Yabin 4" />
+
+  <ImageView
+      android:id="@+id/arrow"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:contentDescription="@string/content_drescription_arrow_destination"
+      app:layout_constraintBottom_toBottomOf="@+id/pickUp"
+      app:layout_constraintStart_toEndOf="@+id/pickUp"
+      app:layout_constraintTop_toTopOf="@+id/pickUp"
+      app:srcCompat="@drawable/ic_arrow" />
+
+  <TextView
+      android:id="@+id/dropOff"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:textColor="@color/warm_grey"
+      android:textSize="14sp"
+      app:layout_constraintStart_toEndOf="@+id/arrow"
+      app:layout_constraintTop_toTopOf="@+id/pickUp"
+      tools:text="Naboo" />
+</androidx.constraintlayout.widget.ConstraintLayout>
