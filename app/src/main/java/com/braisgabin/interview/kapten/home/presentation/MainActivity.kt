@@ -1,7 +1,8 @@
-package com.braisgabin.interview.kapten
+package com.braisgabin.interview.kapten.home.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.braisgabin.interview.kapten.R
 
 class MainActivity : AppCompatActivity() {
 
