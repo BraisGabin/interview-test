@@ -1,8 +1,30 @@
 package com.braisgabin.interview.kapten.home.presentation.feature
 
+import com.badoo.mvicore.feature.BaseFeature
 import com.braisgabin.interview.kapten.entity.Trip
+import com.braisgabin.interview.kapten.home.domain.TripsUseCase
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 
-sealed class Wish
+class HomeFeature constructor(
+  tripsUseCase: TripsUseCase,
+  main: Scheduler
+) : BaseFeature<Wish, Action, Effect, State, Nothing>(
+  initialState = State.Load,
+  bootstrapper = { Observable.just(Action.Load) },
+  actor = HomeActor(tripsUseCase, main),
+  reducer = HomeReducer(),
+  wishToAction = { wish ->
+    when (wish) {
+      Wish.Load -> Action.Load
+    }
+  }
+)
+
+sealed class Wish {
+  object Load : Wish()
+}
+
 sealed class Action {
   object Load : Action()
 }
