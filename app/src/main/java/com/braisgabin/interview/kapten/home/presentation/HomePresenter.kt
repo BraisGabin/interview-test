@@ -1,5 +1,7 @@
 package com.braisgabin.interview.kapten.home.presentation
 
+import com.braisgabin.interview.kapten.Navigator
+import com.braisgabin.interview.kapten.entity.Trip
 import com.braisgabin.interview.kapten.home.presentation.feature.HomeFeature
 import com.braisgabin.interview.kapten.home.presentation.feature.State
 import com.braisgabin.interview.kapten.home.presentation.feature.Wish
@@ -13,7 +15,8 @@ import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 class HomePresenter @Inject constructor(
-  homeFeature: HomeFeature
+  homeFeature: HomeFeature,
+  navigator: Navigator
 ) : RxViewModel() {
 
   val events: Consumer<HomeIntents>
@@ -28,14 +31,17 @@ class HomePresenter @Inject constructor(
     disposable.add(events
       .map { intent ->
         when (intent) {
-          HomeIntents.Retry -> Wish.Load
+          HomeIntents.Retry -> homeFeature.accept(Wish.Load)
+          is HomeIntents.Click -> navigator.goToDetail(intent.trip)
         }
       }
-      .subscribe(homeFeature::accept))
+      .ignoreElements()
+      .subscribe())
     this.events = events
   }
 }
 
 sealed class HomeIntents {
   object Retry : HomeIntents()
+  data class Click(val trip: Trip) : HomeIntents()
 }

@@ -11,7 +11,7 @@ import javax.inject.Named
 @Component(modules = [AppModule::class])
 interface AppComponent {
 
-  fun mainActivityComponent(): MainActivity.Component
+  fun mainActivityComponent(): MainActivity.Component.Factory
 }
 
 @Module

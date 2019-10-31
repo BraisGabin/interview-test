@@ -1,5 +1,6 @@
 package com.braisgabin.interview.kapten.home.presentation
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.braisgabin.interview.kapten.R
 import com.braisgabin.interview.kapten.appComponent
 import com.braisgabin.interview.kapten.entity.Trip
 import com.braisgabin.interview.kapten.home.presentation.feature.State
+import dagger.BindsInstance
 import dagger.Subcomponent
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
   override fun onCreate(savedInstanceState: Bundle?) {
     appComponent()
       .mainActivityComponent()
+      .create(this)
       .inject(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
   }
 
   override fun clickListener(trip: Trip) {
-    TODO("not implemented")
+    presenter.events.accept(HomeIntents.Click(trip))
   }
 
   private fun allGoneExcept(view: View) {
@@ -84,6 +87,11 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
 
   @Subcomponent
   interface Component {
+
+    @Subcomponent.Factory
+    interface Factory {
+      fun create(@BindsInstance activity: Activity): Component
+    }
 
     fun inject(activity: MainActivity)
   }
