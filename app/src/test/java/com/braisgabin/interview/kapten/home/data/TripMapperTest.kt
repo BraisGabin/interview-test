@@ -6,7 +6,8 @@ import com.braisgabin.interview.kapten.entity.Place
 import com.braisgabin.interview.kapten.entity.Trip
 import com.squareup.moshi.Moshi
 import okio.BufferedSource
-import okio.Okio
+import okio.buffer
+import okio.source
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Test
@@ -75,5 +76,5 @@ class TripMapperTest {
 }
 
 fun Any.getResourceAsBuffer(name: String): BufferedSource {
-  return Okio.buffer(Okio.source(javaClass.classLoader!!.getResourceAsStream(name)!!))
+  return javaClass.classLoader!!.getResourceAsStream(name)!!.source().buffer()
 }
