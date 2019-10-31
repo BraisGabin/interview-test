@@ -3,4 +3,10 @@
   <string name="home_title">Last Trips</string>
   <string name="content_drescription_arrow_destination">to</string>
   <string name="retry">Click to retry</string>
+  <string name="pickUp">Departure</string>
+  <string name="dropOff">Arrival</string>
+  <string name="tripDistance">Trip Distance</string>
+  <string name="tripDuration">Trip Duration</string>
+  <string name="pilotRating">Pilot Rating</string>
+  <string name="noRating">User didn\'t rate yet</string>
 </resources>

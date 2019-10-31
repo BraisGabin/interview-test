@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+  <TextView
+      android:id="@+id/headerTextView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxLines="1"
+      android:textColor="@color/warm_grey"
+      android:textSize="14sp"
+      tools:text="Departure" />
+
+  <TextView
+      android:id="@+id/titleTextView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:letterSpacing="0.2"
+      android:maxLines="1"
+      android:textAllCaps="true"
+      android:textColor="#ffffff"
+      android:textSize="16sp"
+      android:textStyle="bold"
+      tools:text="Yavin 4" />
+
+  <TextView
+      android:id="@+id/subtitleTextView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="2dp"
+      android:letterSpacing="0.2"
+      android:maxLines="1"
+      android:textColor="@color/warm_grey"
+      android:textSize="16sp"
+      android:textStyle="bold"
+      tools:text="2:12 PM" />
+</merge>
