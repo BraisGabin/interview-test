@@ -3,9 +3,11 @@ package com.braisgabin.interview.kapten.home.presentation.feature
 import com.badoo.mvicore.feature.BaseFeature
 import com.braisgabin.interview.kapten.entity.Trip
 import com.braisgabin.interview.kapten.home.domain.TripsUseCase
+import com.braisgabin.interview.kapten.utils.Mockable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 
+@Mockable
 class HomeFeature constructor(
   tripsUseCase: TripsUseCase,
   main: Scheduler
