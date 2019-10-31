@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.braisgabin.interview.kapten.R
 import com.braisgabin.interview.kapten.entity.Trip
-import com.braisgabin.interview.kapten.home.ApplicationModule
+import com.braisgabin.interview.kapten.appComponent
 import com.braisgabin.interview.kapten.home.presentation.feature.State
+import dagger.Subcomponent
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -22,9 +23,8 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
   private val disposable = CompositeDisposable()
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    DaggerMainActivity_Component
-      .builder()
-      .build()
+    appComponent()
+      .mainActivityComponent()
       .inject(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
     TODO("not implemented")
   }
 
-  @dagger.Component(modules = [ApplicationModule::class])
+  @Subcomponent
   interface Component {
 
     fun inject(activity: MainActivity)
