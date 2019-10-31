@@ -6,11 +6,13 @@ import com.braisgabin.interview.kapten.home.domain.TripsUseCase
 import com.braisgabin.interview.kapten.utils.Mockable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import javax.inject.Inject
+import javax.inject.Named
 
 @Mockable
-class HomeFeature constructor(
+class HomeFeature @Inject constructor(
   tripsUseCase: TripsUseCase,
-  main: Scheduler
+  @Named("main") main: Scheduler
 ) : BaseFeature<Wish, Action, Effect, State, Nothing>(
   initialState = State.Load,
   bootstrapper = { Observable.just(Action.Load) },

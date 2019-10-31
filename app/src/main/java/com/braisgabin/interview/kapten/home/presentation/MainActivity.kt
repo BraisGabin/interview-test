@@ -7,17 +7,25 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.braisgabin.interview.kapten.R
-import com.braisgabin.interview.kapten.entity.Measure
-import com.braisgabin.interview.kapten.entity.Pilot
-import com.braisgabin.interview.kapten.entity.Place
 import com.braisgabin.interview.kapten.entity.Trip
+import com.braisgabin.interview.kapten.home.ApplicationModule
+import com.braisgabin.interview.kapten.home.presentation.feature.State
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
-import org.threeten.bp.Duration
-import org.threeten.bp.Instant
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), TripAdapter.Listener {
 
+  @Inject
+  internal lateinit var presenter: HomePresenter
+
+  private val disposable = CompositeDisposable()
+
   override fun onCreate(savedInstanceState: Bundle?) {
+    DaggerMainActivity_Component
+      .builder()
+      .build()
+      .inject(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
@@ -27,55 +35,42 @@ class MainActivity : AppCompatActivity(), TripAdapter.Listener {
     recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL).apply {
       setDrawable(AppCompatResources.getDrawable(this@MainActivity, R.drawable.divider)!!)
     })
-    recyclerView.adapter = TripAdapter(this).apply {
-      submitList(
-        listOf(
-          trip("1"),
-          trip("2"),
-          trip("3"),
-          trip("4"),
-          trip("5"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6"),
-          trip("6")
-        )
-      )
+  }
+
+  override fun onStart() {
+    super.onStart()
+    disposable.add(presenter.states
+      .subscribe(this::render) {
+        throw RuntimeException(it)
+      })
+  }
+
+  override fun onStop() {
+    super.onStop()
+    disposable.clear()
+  }
+
+  private fun render(state: State) {
+    when (state) {
+      State.Load -> {}
+      State.Error -> {}
+      is State.Data -> {
+        val adapter = (recyclerView.adapter as? TripAdapter ?: TripAdapter(this))
+        adapter.submitList(state.trips)
+        if (recyclerView.adapter !== adapter) {
+          recyclerView.adapter = adapter
+        }
+      }
     }
   }
 
   override fun clickListener(trip: Trip) {
     TODO("not implemented")
   }
+
+  @dagger.Component(modules = [ApplicationModule::class])
+  interface Component {
+
+    fun inject(activity: MainActivity)
+  }
 }
-
-private fun trip(
-  id: String,
-  pilot: Pilot = pilot(),
-  distance: Measure = measure(),
-  duration: Duration = Duration.ZERO,
-  pickUp: Place = place(),
-  dropOff: Place = place()
-) = Trip(id, pilot, distance, duration, pickUp, dropOff)
-
-private fun pilot(
-  name: String = "Darth Vador",
-  pictureUrl: String = "https://starwars.kapten.com/static/dark-vador.png",
-  rating: Float? = 5.0f
-) = Pilot(name, pictureUrl, rating)
-
-private fun measure(
-  value: Long = 987654321,
-  unit: String = "km"
-) = Measure(value, unit)
-
-private fun place(
-  name: String = "Naboo",
-  pictureUrl: String = "https://starwars.kapten.com/static/naboo.png",
-  date: Instant = Instant.ofEpochSecond(123456789)
-) = Place(name, pictureUrl, date)
