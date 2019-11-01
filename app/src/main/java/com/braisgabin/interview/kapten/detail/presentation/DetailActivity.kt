@@ -25,6 +25,10 @@ class DetailActivity : AppCompatActivity() {
 
     val trip = intent.getParcelableExtra<TripDTO>(EXTRA_TRIP)!!.toDomain()
 
+    setSupportActionBar(toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    title = ""
+
     Picasso.get()
       .load(trip.pilot.pictureUrl)
       .fit()
