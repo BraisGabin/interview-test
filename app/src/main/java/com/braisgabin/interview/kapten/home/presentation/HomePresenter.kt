@@ -12,9 +12,8 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
-import javax.inject.Inject
 
-class HomePresenter @Inject constructor(
+class HomePresenter(
   homeFeature: HomeFeature,
   navigator: Navigator
 ) : RxViewModel() {
