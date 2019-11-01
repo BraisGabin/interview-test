@@ -20,6 +20,9 @@ class HomeReducerTest {
 
   @Test
   fun data() {
-    assertThat(reducer.invoke(State.Load, Effect.Data(emptyList())), `is`<State>(State.Data(emptyList())))
+    assertThat(
+      reducer.invoke(State.Load, Effect.Data(emptyList())),
+      `is`<State>(State.Data(emptyList()))
+    )
   }
 }
