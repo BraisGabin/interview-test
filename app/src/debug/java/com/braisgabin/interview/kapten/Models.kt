@@ -6,12 +6,13 @@ import com.braisgabin.interview.kapten.entity.Place
 import com.braisgabin.interview.kapten.entity.Trip
 import org.threeten.bp.Duration
 import org.threeten.bp.Instant
+import org.threeten.bp.temporal.ChronoUnit
 
 fun trip(
   id: String,
   pilot: Pilot = pilot(),
   distance: Measure = measure(),
-  duration: Duration = Duration.ZERO,
+  duration: Duration = Duration.ofSeconds(7).plus(5, ChronoUnit.MINUTES).plus(3, ChronoUnit.HOURS),
   pickUp: Place = place(),
   dropOff: Place = place()
 ) = Trip(id, pilot, distance, duration, pickUp, dropOff)

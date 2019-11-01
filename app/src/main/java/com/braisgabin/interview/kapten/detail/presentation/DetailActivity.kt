@@ -23,37 +23,25 @@ class DetailActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_detail)
 
-    val trip = intent.getParcelableExtra<TripDTO>(EXTRA_TRIP)!!.toDomain()
+    val trip = intent.getParcelableExtra<TripDTO>(EXTRA_TRIP)!!.toDomain().parse()
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     title = ""
 
     Picasso.get()
-      .load(trip.pilot.pictureUrl)
+      .load(trip.picture)
       .fit()
       .centerCrop()
       .into(imageView)
 
-    pilotName.text = trip.pilot.name
+    pilotName.text = trip.name
 
-    pickUp.bind(
-      R.string.pickUp,
-      trip.pickUp.name,
-      trip.pickUp.date.format()
-    )
-    dropOff.bind(
-      R.string.dropOff,
-      trip.dropOff.name,
-      trip.dropOff.date.format()
-    )
-    distance.bind(
-      R.string.tripDistance,
-      trip.distance.format()
-    )
-    duration.bind(R.string.tripDuration, trip.duration.format())
-
-    rating.bind(trip.pilot.rating)
+    pickUp.bind(trip.pickUp)
+    dropOff.bind(trip.dropOff)
+    distance.bind(trip.distance)
+    duration.bind(trip.duration)
+    rating.bind(trip.rating)
   }
 
   companion object {
@@ -64,6 +52,10 @@ class DetailActivity : AppCompatActivity() {
   }
 }
 
+private fun SectionView.bind(section: Section) {
+  bind(section.header, section.title, section.subtitle)
+}
+
 private fun Measure.format(): String {
   return "%,d $unit".format(value)
 }
@@ -72,7 +64,7 @@ private fun Duration.format(): String {
   val hours = toHours()
   val minutes = minusHours(hours).toMinutes()
   val seconds = minusHours(hours).minusMinutes(minutes).toMillis() / 1000
-  return "$hours:$minutes:$seconds"
+  return "%d:%02d:%02d".format(hours, minutes, seconds)
 }
 
 private fun Instant.format(): String {
@@ -81,3 +73,31 @@ private fun Instant.format(): String {
 }
 
 private const val EXTRA_TRIP = "EXTRA_TRIP"
+
+fun Trip.parse(): ViewModel {
+  return ViewModel(
+    pilot.pictureUrl,
+    pilot.name,
+    Section(R.string.pickUp, pickUp.name, pickUp.date.format()),
+    Section(R.string.dropOff, pickUp.name, pickUp.date.format()),
+    Section(R.string.tripDistance, distance.format()),
+    Section(R.string.tripDuration, duration.format()),
+    pilot.rating
+  )
+}
+
+data class ViewModel(
+  val picture: String,
+  val name: String,
+  val pickUp: Section,
+  val dropOff: Section,
+  val distance: Section,
+  val duration: Section,
+  val rating: Float?
+)
+
+data class Section(
+  val header: Int,
+  val title: String,
+  val subtitle: String? = null
+)
